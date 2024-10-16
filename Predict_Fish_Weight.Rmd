@@ -102,11 +102,93 @@ the best model only using two variables is height and width.
 
 ## Pike
 
+```{r}
+Pikewtall=lm(Weight~.-Weight,data=Pike)
+summary.lm(Pikewtall)
+```
+
+```{r}
+library(leaps)
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = Pike,
+               nbest = 2,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+  
+##Which is best??  
+
+```{r}
+which.max(summary.out$adjr2)
+```
+```{r}
+summary.out$which[3,]
+```
+
+```{r}
+best.model <- lm(Weight~Height+Width,data=Pike)
+summary(best.model)
+```
+
+```{r}
+anova(best.model,Pikewtall)
+```
+
+
+
 ### Best Models
+
 
 ### Best Two regressor model
 
+
 ## Roach
+
+```{r}
+Roachwtall=lm(Weight~.-Weight,data=Roach)
+summary.lm(Roachwtall)
+```
+
+```{r}
+library(leaps)
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = Roach,
+               nbest = 2,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+  
+##Which is best??  
+
+```{r}
+which.max(summary.out$adjr2)
+```
+```{r}
+summary.out$which[3,]
+```
+
+```{r}
+best.model <- lm(Weight~Height+Width,data=Roach)
+summary(best.model)
+```
+
+```{r}
+anova(best.model,Roachwtall)
+```
 
 ### Best Models
 
